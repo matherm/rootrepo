@@ -1,0 +1,133 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 2.8 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \sortlist[entry]{nty/global/}
+    \entry{Er01}{incollection}{}
+      \name{author}{1}{}{%
+        {{hash=731f652a1aa2e8b4d8dd88796de84778}{%
+           family={Erd\H{o}s},
+           familyi={E\bibinitperiod},
+           given={P.},
+           giveni={P\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {Cambridge}%
+      }
+      \list{publisher}{1}{%
+        {Cambridge Univ. Press}%
+      }
+      \strng{namehash}{731f652a1aa2e8b4d8dd88796de84778}
+      \strng{fullhash}{731f652a1aa2e8b4d8dd88796de84778}
+      \strng{authornamehash}{731f652a1aa2e8b4d8dd88796de84778}
+      \strng{authorfullhash}{731f652a1aa2e8b4d8dd88796de84778}
+      \field{sortinit}{E}
+      \field{sortinithash}{07bbd5a529b5beaa311df5be05b874bc}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Recent trends in combinatorics (Matrahaza, 1995)}
+      \field{title}{A selection of problems and results in combinatorics}
+      \field{year}{1995}
+      \field{pages}{1\bibrangedash 6}
+      \range{pages}{6}
+    \endentry
+    \entry{ConcreteMath}{book}{}
+      \name{author}{3}{}{%
+        {{hash=44334b58d9a44f9443ff2ae5697b44e4}{%
+           family={Graham},
+           familyi={G\bibinitperiod},
+           given={R.L.},
+           giveni={R\bibinitperiod}}}%
+        {{hash=a99ecc5e6a0a5032ac1e949be547a6f3}{%
+           family={Knuth},
+           familyi={K\bibinitperiod},
+           given={D.E.},
+           giveni={D\bibinitperiod}}}%
+        {{hash=82f814fff6ece76214b38bf18c535b8d}{%
+           family={Patashnik},
+           familyi={P\bibinitperiod},
+           given={O.},
+           giveni={O\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {Reading, MA}%
+      }
+      \list{publisher}{1}{%
+        {Addison-Wesley}%
+      }
+      \strng{namehash}{cc3fd2fd7d5f8480b50fd15398c91063}
+      \strng{fullhash}{cc3fd2fd7d5f8480b50fd15398c91063}
+      \strng{authornamehash}{cc3fd2fd7d5f8480b50fd15398c91063}
+      \strng{authorfullhash}{cc3fd2fd7d5f8480b50fd15398c91063}
+      \field{sortinit}{G}
+      \field{sortinithash}{618d986594b7198ba52cf8b00d348f3f}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Concrete mathematics}
+      \field{year}{1989}
+    \endentry
+    \entry{greenwade93}{article}{}
+      \name{author}{1}{}{%
+        {{hash=92cf7853d7cce0a785e2de8a46f72847}{%
+           family={Greenwade},
+           familyi={G\bibinitperiod},
+           given={George\bibnamedelima D.},
+           giveni={G\bibinitperiod\bibinitdelim D\bibinitperiod}}}%
+      }
+      \strng{namehash}{92cf7853d7cce0a785e2de8a46f72847}
+      \strng{fullhash}{92cf7853d7cce0a785e2de8a46f72847}
+      \strng{authornamehash}{92cf7853d7cce0a785e2de8a46f72847}
+      \strng{authorfullhash}{92cf7853d7cce0a785e2de8a46f72847}
+      \field{sortinit}{G}
+      \field{sortinithash}{618d986594b7198ba52cf8b00d348f3f}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{TUGBoat}
+      \field{number}{3}
+      \field{title}{The {C}omprehensive {T}ex {A}rchive {N}etwork ({CTAN})}
+      \field{volume}{14}
+      \field{year}{1993}
+      \field{pages}{342\bibrangedash 351}
+      \range{pages}{10}
+    \endentry
+    \entry{Simpson}{unpublished}{}
+      \name{author}{1}{}{%
+        {{hash=6179198ccd771982cf539ed3e678b3e4}{%
+           family={Simpson},
+           familyi={S\bibinitperiod},
+           given={H.},
+           giveni={H\bibinitperiod}}}%
+      }
+      \strng{namehash}{6179198ccd771982cf539ed3e678b3e4}
+      \strng{fullhash}{6179198ccd771982cf539ed3e678b3e4}
+      \strng{authornamehash}{6179198ccd771982cf539ed3e678b3e4}
+      \strng{authorfullhash}{6179198ccd771982cf539ed3e678b3e4}
+      \field{sortinit}{S}
+      \field{sortinithash}{3c1547c63380458f8ca90e40ed14b83e}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{note}{preprint (2003), available at \texttt{http://www.math.drofnats.edu/riemann.ps}}
+      \field{title}{Proof of the {R}iemann {H}ypothesis}
+      \field{year}{2003}
+    \endentry
+  \endsortlist
+  \missing{knuth92}
+\endrefsection
+\endinput
+

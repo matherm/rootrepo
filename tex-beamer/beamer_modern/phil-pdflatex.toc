@@ -1,0 +1,13 @@
+\select@language {english}
+\beamer@sectionintoc {1}{Light Frames}{2}{0}{1}
+\beamer@subsectionintoc {1}{1}{Blind Text}{3}{0}{1}
+\beamer@subsectionintoc {1}{2}{Structuring Elements}{5}{0}{1}
+\beamer@subsectionintoc {1}{3}{Numerals and Mathematics}{7}{0}{1}
+\beamer@subsectionintoc {1}{4}{Figures and Code Listings}{8}{0}{1}
+\beamer@subsectionintoc {1}{5}{Citations and Bibliography}{11}{0}{1}
+\beamer@sectionintoc {2}{Dark Frames}{13}{0}{2}
+\beamer@subsectionintoc {2}{1}{Blind Text}{14}{0}{2}
+\beamer@subsectionintoc {2}{2}{Structuring Elements}{16}{0}{2}
+\beamer@subsectionintoc {2}{3}{Numerals and Mathematics}{18}{0}{2}
+\beamer@subsectionintoc {2}{4}{Figures and Code Listings}{19}{0}{2}
+\beamer@subsectionintoc {2}{5}{Citations and Bibliography}{22}{0}{2}

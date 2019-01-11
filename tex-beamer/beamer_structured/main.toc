@@ -1,0 +1,11 @@
+\select@language {french}
+\beamer@sectionintoc {1}{Aper\IeC {\c c}u global}{3}{0}{1}
+\beamer@sectionintoc {2}{Les blocs}{4}{0}{2}
+\beamer@sectionintoc {3}{Les bo\^ites}{5}{0}{3}
+\beamer@sectionintoc {4}{Les listes}{6}{0}{4}
+\beamer@subsectionintoc {4}{1}{Liste \IeC {\`a} item}{6}{0}{4}
+\beamer@subsectionintoc {4}{2}{Liste \IeC {\'e}num\IeC {\'e}rative}{7}{0}{4}
+\beamer@subsectionintoc {4}{3}{Liste descriptive}{8}{0}{4}
+\beamer@sectionintoc {5}{Le texte}{9}{0}{5}
+\beamer@sectionintoc {6}{Les tableaux}{10}{0}{6}
+\beamer@sectionintoc {7}{Les images}{12}{0}{7}

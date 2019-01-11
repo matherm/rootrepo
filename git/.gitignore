@@ -1,0 +1,52 @@
+# Archives
+*.tar
+*.zip
+
+# Build
+build
+*.eggs
+**/egg/**
+
+# IDE files
+**/.vscode/**
+**/.idea/**
+
+# Cache files
+kernel-*
+.ipynb_checkpoints/
+**/__ummoncache__/**
+**/__ummoncache2__/**
+**/__pycache__/**
+**/__sftpcache__/**
+**/models/**
+**/csv_output/**
+*.py[cod]
+*.log
+*.pyc
+*.npy
+ocnn/data/mnist
+ocnn/data/exp_output
+ocnn/__ummoncache__
+ocnn/output
+
+# Visualization files
+*.gif
+*.jpg
+*.jpeg
+*.pdf
+*.pt
+*.out
+*.png
+*.tex
+detected_anomalies_image.png
+
+# Model files
+*.pth.tar
+
+# Data folder
+**cifar-10**
+**/cifar-10-batches-py/**
+**/mnist/**
+**/processed/
+**/raw/**
+

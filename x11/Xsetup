@@ -1,0 +1,3 @@
+#!/bin/sh
+# Xsetup - run as root before the login dialog appears
+#/bin/bash /data/workspace/rootrepo/BashscriptsClient/change_resolution.sh

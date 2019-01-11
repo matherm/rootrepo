@@ -1,0 +1,12 @@
+%Zeilenabstand
+\linespread{1.5}
+
+lualatex
+\usepackage{fontspec}
+\setmainfont{Calibri}
+
+Literaturverzeichnis ins Inhaltsverzeichnis
+\printbibliography[heading=bibintoc]
+
+%Literaturverzeichnis abstände
+\setlength{\bibitemsep}{8pt}

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no" ?> 
+<lxCollection version="1" xmlns:txclxp="http://shkristensen.awardspace.com"> 
+<lxPackage name="Fixme" path="" desc="Autocompleres Fixme's" class="TRUE"> 
+<lxEnvironment name="fixme" parameters="1" expafter="} %[draft/final]" expbefore="\usepackage[draft]{" /> 
+<lxCommand name="\mf" parameters="3"/>
+<lxCommand name="\paragraph" parameters="1"/>
+<lxCommand name="\nomenclature" parameters="2"/>
+<lxCommand name="\myboxquote" parameters="1"/>
+<lxCommand name="\mypageref" parameters="1"/>
+<lxCommand name="\gqq" parameters="1"/>
+<lxCommand name="\mfsimple" parameters="2"/>
+<lxCommand name="\bigparagraph" parameters="1"/>
+<lxCommand name="\subparagraph" parameters="1" />
+</lxPackage> 
+</lxCollection>

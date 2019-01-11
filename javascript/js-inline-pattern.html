@@ -1,0 +1,35 @@
+<DOCTYPE! html>
+<script>
+var Greeter = (function () {
+    function Greeter(message, msg) {
+        var private = {};
+        this.private = private;
+        var public = this;
+        
+        private.message = msg;
+        public.message = message;
+       }
+   
+    Greeter.prototype.greet = function () {
+        return "Hello, " + this.message;
+    };
+    
+    Greeter.prototype.greetPrivate = function () {
+        return "Hello, " + this.private.message;
+    };
+    
+    
+     Greeter.prototype.generate = function () {
+        return "Hello, " + Math.random;
+    };
+   
+    return Greeter;
+})();
+
+var AGreeter = new Greeter("World","privateWorld");
+alert(AGreeter.greet());
+alert(AGreeter.greetPrivate());
+alert(AGreeter.greetPrivate());
+alert(AGreeter instanceof Greeter)
+</script>
+</html>

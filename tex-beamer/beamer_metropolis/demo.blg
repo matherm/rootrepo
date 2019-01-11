@@ -1,0 +1,19 @@
+[0] Config.pm:354> INFO - This is Biber 2.7
+[0] Config.pm:357> INFO - Logfile is 'demo.blg'
+[23] biber:303> INFO - === Di Okt 31, 2017, 17:56:35
+[34] Biber.pm:359> INFO - Reading 'demo.bcf'
+[87] Biber.pm:835> INFO - Found 5 citekeys in bib section 0
+[98] Biber.pm:3670> INFO - Processing section 0
+[117] Biber.pm:3840> INFO - Looking for bibtex format file 'demo.bib' for section 0
+[118] bibtex.pm:1435> INFO - Decoding LaTeX character macros into UTF-8
+[124] bibtex.pm:1292> INFO - Found BibTeX data source 'demo.bib'
+[125] Utils.pm:164> WARN - Possible typo (case mismatch) between citation and datasource keys: 'knuth92' and 'Knuth92' in file 'demo.bib'
+[130] Utils.pm:164> WARN - I didn't find a database entry for 'knuth92' (section 0)
+[139] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
+[139] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[139] Biber.pm:3499> INFO - Sorting list 'nty/global/' of type 'entry' with scheme 'nty' and locale 'en-US'
+[139] Biber.pm:3505> INFO - No sort tailoring available for locale 'en-US'
+[144] bbl.pm:608> INFO - Writing 'demo.bbl' with encoding 'ascii'
+[146] Utils.pm:164> WARN - The entry 'Er01' has characters which cannot be encoded in 'ascii'. Recoding problematic characters into macros.
+[147] bbl.pm:712> INFO - Output to demo.bbl
+[147] Biber.pm:109> INFO - WARNINGS: 3

@@ -1,0 +1,6 @@
+[global]
+device=cuda
+floatX=float32
+cuda.root=/opt/cuda
+gcc.cxxflags=-Wnarrowing
+cxx=/usr/bin/g++-5

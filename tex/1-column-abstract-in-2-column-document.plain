@@ -1,0 +1,32 @@
+\documentclass[twocolumn]{article}
+...
+\begin{document}
+... % \author, etc
+\twocolumn[
+  \begin{@twocolumnfalse}
+    \maketitle
+    \begin{abstract}
+      ...
+    \end{abstract}
+  \end{@twocolumnfalse}
+  ]
+
+ \title{Demonstration}
+\author{Me, You\thanks{}}
+\twocolumn[
+  ... as above ...
+]
+{
+  \renewcommand{\thefootnote}%
+    {\fnsymbol{footnote}}
+  \footnotetext[1]{Thanks for nothing}
+}
+
+
+\twocolumn[
+  \maketitle             % full width title
+  \begin{onecolabstract} % ditto abstract
+    ... text
+  \end{onecolabstract}
+]
+\saythanks            % typeset any \thanks
