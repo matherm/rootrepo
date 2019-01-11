@@ -1,0 +1,15 @@
+{
+    "workbench.startupEditor": "newUntitledFile",
+    "git.enabled": false,
+    "git.confirmSync": false,
+    "editor.fontSize": 16,
+    "macros": {
+        "runinterminal": [
+            "editor.action.clipboardCopyAction",
+            "workbench.action.terminal.focus",
+            "workbench.action.terminal.paste",
+            {"command": "workbench.action.terminal.sendSequence", "args": {"text": "\u000D\u000D\u000D"}}
+        ]
+    }
+
+}
