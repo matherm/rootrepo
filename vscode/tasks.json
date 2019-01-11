@@ -6,8 +6,15 @@
         {
             "label": "debug-current-file-in-docker",
             "type": "shell",
-            "command": "docker exec -d python -m ptvsd --host localhost --port 3000 --wait ${file}",
-            "args": []
+            "command": "docker exec -d box python -m ptvsd --host 0.0.0.0 --port 5678 --wait /home/${relativeFile}",
+            "args": [],
+            "presentation": {
+                "reveal": "never",
+                "panel": "shared"
+            },
+            "problemMatcher": [
+                "$eslint-compact"
+            ]
         }
     ]
 }
