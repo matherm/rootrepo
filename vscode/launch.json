@@ -6,13 +6,17 @@
     "configurations": [
         {
             "name": "Attach (Remote Debug)",
-            "preLaunchTask": "debug-current-file-in-docker",
+            "preLaunchTask": "debug-current-file-in-ssh",
+           // "preLaunchTask": "debug-current-file-in-submodule-in-ssh",
+           // "preLaunchTask": "debug-current-file-in-docker",
+           // "preLaunchTask": "debug-current-file-in-submodule-in-docker",
             "type": "python",
             "request": "attach",
             "pathMappings": [
                 {
                     "localRoot": "${workspaceFolder}", 
-                    "remoteRoot": "/home" 
+                    // "remoteRoot": "/home" 
+                     "remoteRoot": "/mnt/f/matthias/workspace/graph-neural-network" 
                 }
             ],
             "port": 5678,

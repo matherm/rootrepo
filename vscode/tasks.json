@@ -6,7 +6,46 @@
         {
             "label": "debug-current-file-in-docker",
             "type": "shell",
+            "command": "export docker exec -d --workdir /home box python -m ptvsd --host 0.0.0.0 --port 5678 --wait ${relativeFile}",
+            "args": [],
+            "presentation": {
+                "reveal": "never",
+                "panel": "shared"
+            },
+            "problemMatcher": [
+                "$eslint-compact"
+            ]
+        },
+        {
+            "label": "debug-current-file-in-submodule-in-docker",
+            "type": "shell",
             "command": "export PYTHONPATH=$PYTHONPATH:/home/lib/ios-datasets && docker exec -d --workdir /home box python -m ptvsd --host 0.0.0.0 --port 5678 --wait ${relativeFile}",
+            "args": [],
+            "presentation": {
+                "reveal": "never",
+                "panel": "shared"
+            },
+            "problemMatcher": [
+                "$eslint-compact"
+            ]
+        },
+        {
+            "label": "debug-current-file-in-ssh",
+            "type": "shell",
+            "command": "ssh -t matthias@localhost 'export PATH=~/miniconda3/envs/pytorch/bin:$PATH ; cd /mnt/f/matthias/workspace/graph-neural-network ; python -m ptvsd --host 0.0.0.0 --port 5678 --wait ${relativeFile}' ",
+            "args": [],
+            "presentation": {
+                "reveal": "never",
+                "panel": "shared"
+            },
+            "problemMatcher": [
+                "$eslint-compact"
+            ]
+        },
+        {
+            "label": "debug-current-file-in-submodule-in-ssh",
+            "type": "shell",
+            "command": "ssh -t matthias@localhost 'export PATH=~/miniconda3/envs/pytorch/bin:$PATH ; cd /mnt/f/matthias/workspace/graph-neural-networkexport ; PYTHONPATH=$PYTHONPATH:/mnt/f/matthisa/workspace/graph-neural-network/lib/ios-datasets ; python -m ptvsd --host 0.0.0.0 --port 5678 --wait ${relativeFile}'",
             "args": [],
             "presentation": {
                 "reveal": "never",
