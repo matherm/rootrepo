@@ -11,8 +11,8 @@
             "request": "attach",
             "pathMappings": [
                 {
-                    "localRoot": "${workspaceFolder}",  // You may also manually specify the directory containing your source code.
-                    "remoteRoot": "/home" // Linux example; adjust as necessary for your OS and situation.
+                    "localRoot": "${workspaceFolder}", 
+                    "remoteRoot": "/home" 
                 }
             ],
             "port": 5678,

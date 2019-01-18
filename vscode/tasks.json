@@ -6,7 +6,7 @@
         {
             "label": "debug-current-file-in-docker",
             "type": "shell",
-            "command": "docker exec -d box python -m ptvsd --host 0.0.0.0 --port 5678 --wait /home/${relativeFile}",
+            "command": "export PYTHONPATH=$PYTHONPATH:/home/lib/ios-datasets && docker exec -d --workdir /home box python -m ptvsd --host 0.0.0.0 --port 5678 --wait ${relativeFile}",
             "args": [],
             "presentation": {
                 "reveal": "never",
