@@ -1,0 +1,5 @@
+UUID = "a"
+USER = "b"
+PW   = "c"
+WPAKEY = "d"
+WIFI = "e"
