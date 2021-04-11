@@ -10,7 +10,8 @@ from credentials import *
 #  upip.help()
 #  upip.install(pckgs)  
 
-WLAN = (WIFI, WPAKEY) # from credentials
+SSID = WIFI
+WIFIPW = WPAKEY
 ifconfig = ('192.168.0.101', '255.255.255.0', '192.168.0.1', '192.168.0.1')
 PLUGSTATES = ["OFF", "ON"]
  
@@ -97,7 +98,7 @@ def do_connect():
     
   if not wlan.isconnected():
       print('connecting to network...')
-      wlan.connect(WIFI, WPAKEY)
+      wlan.connect(SSID, WIFIPW)
       while not wlan.isconnected():
           pass
   print('network config:', wlan.ifconfig())
