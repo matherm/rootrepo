@@ -1,5 +1,5 @@
 import time, gc, os
-from machine import Pin, ADC
+from machine import Pin, ADC, Timer
 from time import sleep_ms
 from ulab import numpy as np
 import math, random
@@ -14,11 +14,11 @@ sound_analog_id = 33
 led = Pin(led_id  , Pin.OUT)
 digi = Pin(sound_digital_id  , Pin.IN)
 pot = ADC(Pin(sound_analog_id))
-pot.atten(ADC.ATTN_11DB   ) 
+pot.atten(ADC.ATTN_11DB) 
 pot.width(ADC.WIDTH_11BIT)
 led.value(0)
 
-def hann(M):
+def hamm(M):
     x = np.arange(M, dtype=np.float)
     pi = np.array([2*np.pi/(M - 1)])
     a_54, b_46 = np.array([0.54]), np.array([0.46])
@@ -36,10 +36,11 @@ class SoundDetector():
 
     # SAMPLING CONSTANTS
     self.HZ = HZ
-    self.SAMPLE_INTERVAL = 1./HZ # 20 kHz
+    self.SAMPLE_INTERVAL = 1./HZ # s
+    self.SAMPLE_INTERVAL_US = int(self.SAMPLE_INTERVAL * 1000 * 1000)
     self.N = N
     self.T = self.SAMPLE_INTERVAL*N
-    self.df = 1/self.T
+    self.df = HZ / N #1/self.T
     self.dw = 2*np.pi/self.T # =df*2*pi
     self.ny = self.dw*N/2
     
@@ -49,66 +50,83 @@ class SoundDetector():
     self.min_amp = min_amp
 
     # RUNTIME VARS
-    self.MEMORY = np.array([0] * N)
-    self.HANN = hann(N)
+    self.MEMORY = []
+    self.HANN = hamm(N)
     self.last_sample_time, self.ticks, self.max_ticks, self.start_ticks = 0, 0, 0, 0
     self.ana_val, self.detected, self.dc = 0, 0, 0
+    self.iamp = 0
+    self.ticks = 0
     
   def _detect(self, record):
-    self.detected = 0
+    self.iamp = 0
     for freq, amp in record:
-      if freq > self.min_freq and freq < self.max_freq and amp > self.min_amp:
-        self.detected = 1
-
+      if freq > self.min_freq and freq < self.max_freq:
+         self.iamp = self.iamp + amp
+    self.detected = 0
+    if self.iamp > self.min_amp:
+      self.detected = 1
+      
+  def _analyze(self, samples, listener, cycle_us):
+    try:
+      self.dc = np.mean(samples)
+      RE, IM = np.fft.fft((samples - self.dc) * self.HANN) # 16 kB
+      ABS = np.sqrt(RE**2 + IM**2)[:self.N//2] # OOM
+      freq_idx = np.argsort(ABS, axis=0)[::-1][:4]
+      Hz = 1000*1000*self.N/cycle_us 
+      df = Hz / self.N
+      record = [(int(hz_on_s(n, self.N, df)), ABS[n]) for n in freq_idx]
+      
+      # DETECTION
+      self._detect(record)
+              
+      # LOG 'N' CLEAN UP
+      if self.ticks % 5 == 0 or self.detected:
+        print(time.ticks_ms() - self.start_ticks, "ms -", Hz, "Hz", record, "- memory", gc.mem_free() // 1000, "kB", "- status", self.detected, "(", self.iamp, ")")
+      del RE, IM, ABS, freq_idx, record
+      
+      # LISTENER      
+      if self.detected:
+        if listener is not None:
+          for l in listener:
+            l(self.detected)
+            
+    except Exception as exc:
+      print("ERROR", exc.args[0])
+    
+    
   def listen(self, record_length=10000, listener = [led_listener], early_stop=False):
     gc.collect()
-    print("Hz:", self.HZ, "T:", self.T, "record_length: ", record_length, "Free mem:", gc.mem_free())
+    print("Hz:", self.HZ, "T:", self.T, "record_length: ", record_length, "min_freq:", self.min_freq, "max_freq:", self.max_freq, "min_amp:", self.min_amp, "Free mem:", gc.mem_free())
     
-    #max_ticks = record_length * HZ//1000
     self.start_ticks  = time.ticks_ms()
     self.last_sample_time, self.ticks = 0, 0
+    t0 = time.ticks_us()
     while True:
-
+ 
       # SOFTWARE SAMPLING
-      if time.ticks_ms() - self.last_sample_time >= self.SAMPLE_INTERVAL: 
-        self.last_sample_time = self.last_sample_time + self.SAMPLE_INTERVAL   
-        self.ticks = self.ticks + 1
-        self.ana_val = float(pot.read())
-        self.MEMORY[self.ticks % self.N] = self.ana_val
+      if time.ticks_us() - self.last_sample_time >= self.SAMPLE_INTERVAL_US: 
+        self.last_sample_time = self.last_sample_time +  self.SAMPLE_INTERVAL_US
         
-      # RING BUFFER
-      if self.ticks % self.N == 0:
-        try: 
-          self.dc = np.mean(self.MEMORY)
-          RE, IM = np.fft.fft((self.MEMORY - self.dc) * self.HANN)
-          ABS = np.sqrt(RE**2 + IM**2)[:self.N//2]
-          freq_idx = np.argsort(ABS, axis=0, )[::-1][:4]
-          record = [(int(hz_on_s(n, self.N, self.df)), ABS[n]) for n in freq_idx]
+        self.ticks = self.ticks + 1
+        self.MEMORY.append(pot.read())
+        
+        if self.ticks % self.N == 0:
+          # COPY BUFFERS
+          samples = np.array(self.MEMORY)
+          del self.MEMORY[:]
+                    
+          # ANALYZE
+          self._analyze(samples, listener, time.ticks_us() - t0)
           
-          # DETECTION
-          self._detect(record)
-          if listener is not None:
-            for l in listener:
-              l(self.detected)
-                  
-          # LOG 'N' CLEAN UP
-          print(time.ticks_ms() - self.start_ticks, "ms -", record[:2], "- memory", gc.mem_free() // 1000, "Kb", "- status", self.detected)
-          del RE, IM, ABS, freq_idx, record
-                
-        except Exception as exc:
-          print("ERROR", exc.args[0])
-          
-        # SLEEP TO BREAK SYMMETRIC SAMPLING
-        sleep_ms(random.randint(1, 2) * 100)
-           
-      # TIME LIMIT
-      if time.ticks_ms() >= self.start_ticks + record_length:
-        break
-      
-      # EARLY STOP
-      if self.detected and early_stop:
-        break
-    
+          # SLEEP TO BREAK SYMMETRIC SAMPLING
+          self.MEMORY = []
+          gc.collect()
+          t0 = time.ticks_us()
+                                       
+        # TIME LIMIT
+        if (time.ticks_ms() >= self.start_ticks + record_length) or (self.detected and early_stop):
+          break
+        
     gc.collect()
     print("Free mem:", gc.mem_free())
  
@@ -119,7 +137,3 @@ class SoundDetector():
 #s = SoundDetector()
 #s.listen()
 #del s
-
-
-
-

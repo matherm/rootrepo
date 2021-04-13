@@ -7,6 +7,7 @@ from time import sleep_ms
 import urequest as urequests
 from credentials import *
 from sound import *
+from kasa import *
 import gc
 #  import upip
 #  upip.help()
@@ -24,87 +25,11 @@ PLUGSTATES = ["OFF", "ON"]
 def go_to_sleep():
   wake1 = Pin(SLEEP_PIN  , Pin.IN, Pin.PULL_DOWN)
   esp32.wake_on_ext0(pin = wake1, level = esp32.WAKEUP_ANY_HIGH) #level parameter can be: esp32.WAKEUP_ANY_HIGH or esp32.WAKEUP_ALL_LOW
-  print('Im awake. Going to sleep in 2 seconds')
-  sleep_ms(2000)
+  print('Im awake. Going to sleep in 1 seconds')
+  sleep_ms(1000)
   print('Going to sleep now')
   machine.deepsleep()
- 
-class Kasa():
   
-  def __init__(self, UUID=UUID, USER=USER, PW=PW):
-    print("Hello Kasa!")
-    self.UUID = UUID
-    self.USER = USER
-    self.PW   = PW
-    
-    self.token = self._token()
-    print(self.token)
-    self.device = self._device()
-    print(self.device)
-    
-  def _token(self):
-    params = {}
-    params["appType"] = "Kasa_Android"
-    params["cloudUserName"] = self.USER
-    params["cloudPassword"] = self.PW
-    params["terminalUUID"] = self.UUID
-    body = {}
-    body["method"] = "login"
-    body["params"] = params
-    response = urequests.post("https://wap.tplinkcloud.com", data = ujson.dumps(body))
-    #print(response.json())
-    token = response.json()["result"]["token"]
-    response.close()
-    return token
-  
-  def _device(self, id=0):
-    token = self.token
-    body = {}
-    body["method"] = "getDeviceList"
-    response = urequests.post("https://wap.tplinkcloud.com/?token=" + token, data = ujson.dumps(body))
-    #print(response.json())
-    device = response.json()["result"]["deviceList"][id]["deviceId"]
-    response.close()
-    return device
-    
-  def set(self, the_state=1):
-    print("Switching", PLUGSTATES[the_state])
-    token, device  = self.token, self.device
-    params = {}
-    params["deviceId"] = device
-    params["requestData"] = "{\"system\":{\"set_relay_state\":{\"state\":%state} } }".replace("%state", str(the_state))
-    body = {}
-    body["method"] = "passthrough"
-    body["params"] = params
-    response = urequests.post("https://eu-wap.tplinkcloud.com/?token=" + token, data = ujson.dumps(body))
-    res = response.json()
-    response.close()
-    return res
-    
-  def get(self):
-    token, device  = self.token, self.device
-    params = {}
-    params["deviceId"] = device
-    params["requestData"] = "{\"system\":{\"get_sysinfo\":null},\"emeter\":{\"get_realtime\":null}}"
-    body = {}
-    body["method"] = "passthrough"
-    body["params"] = params
-    response = urequests.post("https://eu-wap.tplinkcloud.com/?token=" + token, data = ujson.dumps(body))
-    res = response.json()
-    relay_state = int(res["result"]["responseData"].split("relay_state\":")[1][0]) 
-    response.close()
-    return relay_state
-    
-  def on(self):
-    self.set(1)
-    
-  def off(self):
-    self.set(0)
-  
-  def switch(self):
-    new_state = self.get() + 1
-    self.set(new_state  % 2)
-     
 def do_connect():
   import network
   wlan = network.WLAN(network.STA_IF)
@@ -125,10 +50,10 @@ def test_dns(host="google.de"):
 def kasa_listener(status):
   if status:
     do_connect()
-    # test_dns()
+    test_dns()
     # http_get()
-    kasa = Kasa()
-    kasa.on()
+    #kasa = Kasa()
+    #kasa.on()
 
 ################################################################
 # MAIN
@@ -142,11 +67,14 @@ print(wake, reset)
 
 if reset == "DEEPSLEEP":
   try:
-    sd = SoundDetector()
-    sd.listen(20000, [led_listener, kasa_listener], early_stop=True)
+    machine.freq(240000000)
+    sd = SoundDetector(HZ = 7500, min_freq=3000, max_freq=3200, min_amp = 150)
+    sd.listen(60 * 1000, [led_listener, kasa_listener], early_stop=True)
     del sd
   except Exception as exc:
     print("ERROR", exc.args[0])
 
-  
 go_to_sleep()
+
+
+
