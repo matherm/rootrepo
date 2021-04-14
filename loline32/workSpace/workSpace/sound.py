@@ -8,15 +8,13 @@ gc.collect()
 print("Free mem:", gc.mem_free())
 
 # IO
-led_id = 22
 sound_digital_id = 34
 sound_analog_id = 33 
-led = Pin(led_id  , Pin.OUT)
 digi = Pin(sound_digital_id  , Pin.IN)
 pot = ADC(Pin(sound_analog_id))
 pot.atten(ADC.ATTN_11DB) 
 pot.width(ADC.WIDTH_11BIT)
-led.value(0)
+
 
 def hamm(M):
     x = np.arange(M, dtype=np.float)
@@ -27,12 +25,9 @@ def hamm(M):
 def hz_on_s(n, N, df):
     return df*n if n<N/2 else df*(n-N)
 
-def led_listener(status):
-  led.value(status)
-
 class SoundDetector():
   
-  def __init__(self, HZ = 5000, N = 2048, min_freq=1400, max_freq=2100, min_amp = 100):
+  def __init__(self, HZ = 5000, N = 2048, min_freq=1400, max_freq=2100, min_amp = 100, led=None):
 
     # SAMPLING CONSTANTS
     self.HZ = HZ
@@ -56,6 +51,7 @@ class SoundDetector():
     self.ana_val, self.detected, self.dc = 0, 0, 0
     self.iamp = 0
     self.ticks = 0
+    self.led = led.value if led is not None else lambda x : x
     
   def _detect(self, record):
     self.iamp = 0
@@ -94,7 +90,7 @@ class SoundDetector():
       print("ERROR", exc.args[0])
     
     
-  def listen(self, record_length=10000, listener = [led_listener], early_stop=False):
+  def listen(self, record_length=10000, listener = [], early_stop=False):
     gc.collect()
     print("Hz:", self.HZ, "T:", self.T, "record_length: ", record_length, "min_freq:", self.min_freq, "max_freq:", self.max_freq, "min_amp:", self.min_amp, "Free mem:", gc.mem_free())
     
@@ -118,6 +114,9 @@ class SoundDetector():
           # ANALYZE
           self._analyze(samples, listener, time.ticks_us() - t0)
           
+          # BLINK
+          self.led(self.iamp > 0)
+          
           # SLEEP TO BREAK SYMMETRIC SAMPLING
           self.MEMORY = []
           gc.collect()
@@ -137,3 +136,4 @@ class SoundDetector():
 #s = SoundDetector()
 #s.listen()
 #del s
+

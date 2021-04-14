@@ -2,7 +2,7 @@ import os
 import ujson
 import machine
 import esp32
-from machine import Pin
+from machine import Pin, Timer
 from time import sleep_ms
 import urequest as urequests
 from credentials import *
@@ -16,6 +16,9 @@ gc.collect()
 print("Free mem:", gc.mem_free())
 
 # IO
+ledb = Pin(21  , Pin.OUT)
+ledw = Pin(22  , Pin.OUT)
+ledg = Pin(19  , Pin.OUT)
 SLEEP_PIN = 12
 SSID = WIFI
 WIFIPW = WPAKEY
@@ -46,6 +49,21 @@ def test_dns(host="google.de"):
   import usocket as socket
   addr = socket.getaddrinfo(host, 80)[0][-1]
   print('DNS test:', addr)
+  
+def led_listener(status):
+  ledw.value(status)
+  
+white_status = 0
+def blink_white(status=None):
+  global white_status
+  white_status = (white_status + 1) % 2
+  ledw.value(white_status)
+
+green_status = 0
+def blink_green(status=None):
+  global green_status
+  green_status = (green_status + 1) % 2
+  ledg.value(green_status) 
 
 def kasa_listener(status):
   if status:
@@ -63,18 +81,22 @@ wakeup_reason_candidates = ['PIN', 'PWRON', 'RTC', 'ULP', 'WLAN' ]
 reset_cause_candidates = ['PWRON', 'HARD', 'SOFT', 'WDT', 'DEEPSLEEP', 'BROWN_OUT']
 wake = wakeup_reason_candidates[machine.wake_reason()]
 reset = reset_cause_candidates[machine.reset_cause()]
+timer = Timer(0)
 print(wake, reset)
 
 if reset == "DEEPSLEEP":
   try:
     machine.freq(240000000)
-    sd = SoundDetector(HZ = 7500, min_freq=3000, max_freq=3200, min_amp = 150)
-    sd.listen(60 * 1000, [led_listener, kasa_listener], early_stop=True)
+    sd = SoundDetector(HZ = 7500, min_freq=3000, max_freq=3200, min_amp = 300, led=ledb)
+    # timer.init(period=2000, mode=machine.Timer.PERIODIC, callback=blink_white)
+    sd.listen(60 * 1000, [kasa_listener], early_stop=True)
     del sd
   except Exception as exc:
     print("ERROR", exc.args[0])
 
+timer.deinit()
 go_to_sleep()
+
 
 
 
