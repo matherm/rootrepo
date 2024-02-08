@@ -1,17 +1,16 @@
-import os
-import ujson
-import machine
-import esp32
+import os, gc, ujson, machine, esp32
 from machine import Pin, Timer
 from time import sleep_ms
-import urequest as urequests
+
 from credentials import *
-from sound import *
 from kasa import *
-import gc
+from sound import *
+
 #  import upip
 #  upip.help()
 #  upip.install(pckgs)  
+
+machine.freq(240000000)
 gc.collect()
 print("Free mem:", gc.mem_free())
 
@@ -66,6 +65,8 @@ def blink_green(status=None):
   ledg.value(green_status) 
 
 def kasa_listener(status):
+  import urequest as urequests
+
   if status:
     do_connect()
     test_dns()
@@ -82,20 +83,21 @@ reset_cause_candidates = ['PWRON', 'HARD', 'SOFT', 'WDT', 'DEEPSLEEP', 'BROWN_OU
 wake = wakeup_reason_candidates[machine.wake_reason()]
 reset = reset_cause_candidates[machine.reset_cause()]
 timer = Timer(0)
+timer.init(period=2000, mode=machine.Timer.PERIODIC, callback=blink_white)
+timer.deinit()
 print(wake, reset)
 
 if reset == "DEEPSLEEP":
+
   try:
-    machine.freq(240000000)
-    sd = SoundDetector(HZ = 7500, min_freq=3000, max_freq=3200, min_amp = 300, led=ledb)
-    # timer.init(period=2000, mode=machine.Timer.PERIODIC, callback=blink_white)
+    sd = SoundDetector(HZ = 7500, min_freq=3000, max_freq=3200, min_amp = 4000, led=ledb, led_amp = 3000)    
     sd.listen(60 * 1000, [kasa_listener], early_stop=True)
     del sd
   except Exception as exc:
     print("ERROR", exc.args[0])
 
-timer.deinit()
 go_to_sleep()
+
 
 
 

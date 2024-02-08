@@ -1,12 +1,13 @@
 import time, gc, os
 from ulab import numpy as np
-from machine import PIN
+from machine import Pin, ADC, Timer
 
 
 digi = Pin(33  , Pin.IN)
 pot = ADC(Pin(32))
 pot.atten(ADC.ATTN_11DB) 
 pot.width(ADC.WIDTH_11BIT)
+print(gc.mem_free())
 
 TIMING = [0] * 50
 vals = [0] * 50
@@ -23,3 +24,4 @@ while True:
         break
      
 a = 1000*1000*len(TIMING)/((np.max(TIMING) - np.min(TIMING)))
+
